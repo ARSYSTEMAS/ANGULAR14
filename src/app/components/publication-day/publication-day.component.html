@@ -1,0 +1,42 @@
+<h5   class="section-title position-relative text-uppercase mx-xl-5 "><span class="bg-secondary pr-3">Publicados hoy </span></h5>
+<section  style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+
+      <div *ngFor=" let publicacion of IspublicacionCpy let i =index" class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="card text-black">
+          <div class="card" style="border-radius: 15px;">
+            <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+              data-bs-ripple-color="light">
+             
+                <div class="imgPrincipal">             
+                  <img src="{{publicacion.fotoprincipal}}" style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid"
+                  alt="Foto Vehiculo">
+                </div>
+          </div>
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="text-dark text-uppercase">{{publicacion.marca}} {{publicacion.modelo}}</p>
+                  <p class="small text-muted">{{publicacion.ano}} | {{ formato.formatoNumerico(publicacion.km) }} KM</p>
+                </div>
+                <div>
+                    <div class="d-flex flex-row justify-content-end mt-1 mb-4 text-danger">
+                        <h5 class="text-dark mb-0">{{ formato.formatearValor(publicacion.precio, publicacion.tipomoneda) }}</h5>
+                      </div>  
+                </div>
+              </div>
+            </div>
+         
+            <hr class="my-0" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
+                <button type="button" (click)="verPublicacion(publicacion.idpublicacion)" class="btn btn-primary">Ver MarketPlace</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>

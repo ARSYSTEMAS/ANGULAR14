@@ -1,0 +1,98 @@
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+
+
+      <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="card text-black">
+          <a routerLink="/sell">
+          <img  src="https://firebasestorage.googleapis.com/v0/b/autosusados-app.appspot.com/o/autosusados%2Fimg%2Ffacilrapido.png?alt=media&token=3b2897d5-f91f-4b51-9a45-cf367daf5c93"
+            class="card-img-top" alt="FacilYrapido" /></a>
+          <div class="card-body">
+            <div class="text-center mt-1">
+              <h4 class="card-title">RAPIDO Y FACIL</h4>
+               <span class="h4 mb-0">Vender</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+        <div class="card text-black">
+          <img src="https://firebasestorage.googleapis.com/v0/b/autosusados-app.appspot.com/o/autosusados%2Fimg%2Ffoto.png?alt=media&token=edb411d4-844c-45f7-89dd-5d0a5fb3ed1a"
+            class="card-img-top" alt="Fotografia" />
+          <div class="card-body">
+            <div class="text-center mt-1">
+              <h4 class="card-title">FOTOGRAFIA Y ASESORIA</h4>
+               <span class="h4 mb-0">Toma las mejores fotos</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+        <div class="card text-black">
+          <a routerLink="/marketplace">
+          <img src="https://firebasestorage.googleapis.com/v0/b/autosusados-app.appspot.com/o/autosusados%2Fimg%2Fmarketplace.png?alt=media&token=d6802201-c365-4d00-820d-b82721ac6ec0"
+            class="card-img-top" alt="MarketPlace" /></a>
+          <div class="card-body">
+            <div class="text-center mt-1">
+              <h4 class="card-title">MARKETPLACE</h4>
+              <span class="h4 mb-0">Encuentra el auto ideal</span>
+            </div>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+  </div>
+</section>
+
+
+<h5 class="section-title position-relative text-uppercase mx-xl-5 "><span class="bg-secondary pr-3">Lo mas Reciente</span></h5>
+<section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+
+
+        <div *ngFor=" let publicacion of IspublicacionCpy let i =index" class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+          <div class="product-item bg-light mb-4">
+          <div class="card">
+            <div class="product-img position-relative overflow-hidden">
+            <div class="imgPrincipal">             
+              <img src="{{publicacion.fotoprincipal}}" class="img-fluid" alt="Foto Vehiculo">
+            </div>
+            <div class="product-action">
+              <a class="btn btn-outline-dark btn-square" (click)="verPublicacion(publicacion.idpublicacion)"><i class="fa fa-search"></i></a>
+          </div>
+        </div>
+      </div>
+
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <p class="small"><a href="#!" class="text-muted"><strong>{{publicacion.ubicacion}}</strong></a></p>
+                <p class="small text-danger">{{publicacion.ano}} | {{formato.formatoNumerico(publicacion.km) }} KM</p>
+              </div>
+  
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0 text-uppercase">{{publicacion.marca}} {{publicacion.modelo}}</h5>
+                <h5 class="text-dark mb-0">{{ formato.formatearValor(publicacion.precio, publicacion.tipomoneda) }}</h5>
+              </div>
+  
+              
+            </div>
+          </div>
+        </div>
+
+
+       
+
+        
+      </div>
+    </div>
+  </section>

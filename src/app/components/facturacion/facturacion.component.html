@@ -1,0 +1,182 @@
+
+    <div  class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-12">
+          <div class="card border-top border-bottom border-3" style="border-color: #f37a27 !important;">
+            <div class="card-body p-5">
+  
+              <p class="lead fw-bold mb-5" style="color: #f37a27;">Lista de Facturación Generadas</p>
+  
+              <div class="row">
+                <div class="col mb-3">
+                  <p class="small text-muted mb-1">Fecha</p>
+                  <p>{{formato.formatearFecha(formattedToday)}}</p>
+                </div>
+                <div class="col mb-3">
+                  <p class="small text-muted mb-1">No.</p>
+                  <p>{{currentUsuario.id}}</p>
+                </div>
+              </div>
+  
+      <div *ngFor=" let factura of IsFacturacion let i =index" class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
+          <div class="row">
+
+             <div class="row">
+                  <div class="col-md-2">
+                    <div class="imgPrincipal">
+                    <img src="{{factura.fotoprincipal}}"
+                      class="img-fluid" alt="foto">
+                   </div>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{factura.marca}} {{factura.modelo}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{formato.formatearFecha(factura.fechapublicacion)}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">
+                      
+                      <li class="list-inline-item items-list">
+                        <p class="py-1 px-2 rounded text-white" *ngIf="factura.estatuspublicacion !='A'" style="background-color: #f37a27; cursor: pointer;" (click)="pagarFactura(factura.idpublicacion)">Pagar 1$</p>                      
+                      </li>
+                    </p>
+                  </div>
+
+              
+                  <div *ngIf="factura.estatuspublicacion !='P'" class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                   <p   class="py-1 px-2 rounded text-white" (click)="sendUrlFotoModal(factura.idpublicacion)"  [style]="{'background-color': factura.estatuspublicacion == 'A' ? '#294d39' : 'red'}" style="cursor: pointer;"> 
+                  <small *ngIf="factura.estatuspublicacion =='A'" ><i class="bi bi-check-all"></i> Factura pagada (ver) </small>
+                  <small *ngIf="factura.estatuspublicacion =='PR'" ><i class="bi bi-cloud-upload"></i> En revisión (ver)</small>
+                   </p>                      
+                  </div>  
+
+
+                   <!--
+                  <div  class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                  
+                    <p *ngIf="factura.estatuspublicacion == 'A'; then thenBlock; else elseBlock"></p>
+                   <p   (click)="sendUrlFotoModal(factura.idpublicacion)"> 
+                    <ng-template #thenBlock> <small >Factura pagada ver Comprobante</small></ng-template>
+                    <ng-template #elseBlock> <small *ngIf="factura.estatuspublicacion == 'PR'">Comprobante Enviado </small></ng-template>
+                   </p>                      
+                  </div>-->              
+                  
+                </div>
+           </div>
+        
+      </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button #pagar type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagar"></button>
+
+    <div class="modal fade" id="pagar">
+          <div class="modal-dialog">
+            <div class="modal-content">
+    
+                  <!-- Modal Header -->
+                  <div class="modal-header bg-primary">
+                    <h4 class="modal-title " style="color: white;">Puedes pagar a traves de estas opciones</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <p  class="small " style="text-align: center; background-color: black; color: white;">Tarifa plana: 1$ o su equivalente en Bolivares(tasa BCV)</p>
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-0">
+                        <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                            
+                                <div class="d-flex flex-row">
+                                  <img src="./assets/img/banesco.png" alt="banco banesco"
+                                    class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                                  <div class="pt-1">
+                                    <p class="fw-bold mb-0">Banesco </p>
+                                    <p class="small ">0134-0946-31-0001301580 Anderson Garcia 16.570.004</p>
+                                    <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                                  </div>
+                                </div>                          
+                        </li>                  
+    
+                        <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                            
+                          <div class="d-flex flex-row">
+                            <img src="./assets/img/provincial.png" alt="banco provincial"
+                              class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                            <div class="pt-1">
+                              <p class="fw-bold mb-0">Provincial </p>
+                              <p class="small ">0108-0054-47-0100341748 Anderson Garcia 16.570.004</p>
+                              <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                            </div>
+                          </div>                          
+                        </li>          
+                        
+                        
+                        <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                            
+                          <div class="d-flex flex-row">
+                            <img src="./assets/img/bdvenezuela.jpg" alt="banco venezuela"
+                              class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                            <div class="pt-1">
+                              <p class="fw-bold mb-0">Venezuela </p>
+                              <p class="small ">0102-0353-85-0100020682 Anderson Garcia 16.570.004</p>
+                              <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                            </div>
+                          </div>                          
+                        </li>                           
+                      </ul>    
+                    </div>
+              
+                    <div class="card mb-2 mb-lg-0">
+                      <div class="card-body">
+                        <p ><strong>Tambien Aceptamos</strong></p>
+                        <p class="small "> Correo: ar_gg@hotmail.com</p>
+                        <img class="me-2" width="45px"
+                          src="./assets/img/airtm.png"
+                          alt="Airtm" />
+                        <img class="me-2" width="85px"
+                          src="./assets/img/binance.png"
+                          alt="Binance" />
+                      </div>
+                    </div>
+    
+                      <!-- Tips  barraProgeso-->
+                 <div  *ngIf="percentDoneFlag" class="progress d-flex justify-content-center ">
+                  <div  class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" [style.width]="(percentDone)+'%'">Enviando Comprobante {{percentDone}}%
+                  </div>
+                </div>
+                
+                    <!-- Modal Upload comprobante de pago -->
+              <div class="modal-footer">
+    
+               
+    
+                <div class="btn btn-primary">
+                    <label class="form-label" for="comprobantePago"><strong>Enviar Comprobante de pago</strong>
+                    </label><input type="file" class="form-control d-none" (change)="cargarComprobante($event)"  id="comprobantePago" />
+                </div>
+             </div>
+    
+            </div>
+         </div>
+    </div>
+
+ <!-- Comprobante Modal -->
+
+ <button #sendUrlImage type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendUrlImage"></button>
+
+    <div class="modal fade" id="sendUrlImage" tabindex="-1" role="dialog" aria-labelledby="product-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="product-modal-label">Foto Ampliada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{urlFotoModal}}" class="img-fluid" alt="Foto Comprobante">
+                </div>
+            </div>
+        </div>
+    </div>

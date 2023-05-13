@@ -1,0 +1,90 @@
+<section class="order-form m-4">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-12 px-4">
+                <h1>Completa el formulario </h1>
+                
+                <hr class="mt-1" />
+            </div>
+            <form  #ContactoForm="ngForm" (ngSubmit)="enviar()"  [formGroup] = "contactoForm">
+            <div class="col-12">
+                <div class="row mx-4">
+                    <div class="col-12">
+                        <label class="order-form-label"><strong>Datos Personales</strong></label>
+                    </div>
+                    <span *ngIf= "contactoForm.get('nombre')?.hasError('required') && contactoForm.get('nombre')?.touched" class="text-danger">El <strong>Nombre</strong> es requerido </span>
+                    <div class="col-sm-6">
+                        <div class="form-outline">
+                            <input type="text" id="nombre" formControlName="nombre" class="form-control order-form-input" />
+                            <label class="form-label" for="form1">Nombre</label>
+                        </div>
+                    </div>
+
+                    <span *ngIf= "contactoForm.get('apellido')?.hasError('required') && contactoForm.get('apellido')?.touched" class="text-danger">El <strong>Apellido</strong> es requerido </span>
+                    <div class="col-sm-6 mt-2 mt-sm-0">
+                        <div class="form-outline">
+                            <input type="text" id="apellido" formControlName="apellido" class="form-control order-form-input" />
+                            <label class="form-label" for="form1">Apellido</label>
+                        </div>
+                    </div>
+                </div>
+  
+                <div class="row mt-3 mx-4">
+
+                    <span *ngIf= "contactoForm.get('telefono')?.hasError('required') && contactoForm.get('telefono')?.touched" class="text-danger">El <strong>Telefono</strong> es requerido </span>
+                    <div class="col-sm-6">
+                        <div class="form-outline">
+                            <input type="text" id="telefono" formControlName="telefono" class="form-control order-form-input" />
+                            <label class="form-label" for="form1">WhatsApp/Teléfono</label>
+                        </div>
+                    </div>
+
+                    <span *ngIf= "contactoForm.get('correo')?.hasError('required') && contactoForm.get('correo')?.touched" class="text-danger">El <strong>Correo</strong> es requerido </span>
+                    <div class="col-sm-6 mt-2 mt-sm-0">
+                        <div class="form-outline">
+                            <input type="text" id="correo" formControlName="correo" class="form-control order-form-input" />
+                            <label class="form-label" for="form2">Correo/Email</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <span *ngIf= "contactoForm.get('motivo')?.hasError('required') && contactoForm.get('motivo')?.touched" class="text-danger">El <strong>Motivo</strong> es requerido </span>
+                <div class="row mt-3 mx-4">
+                    <div class="col-12">
+                        <label class="order-form-label">Motivo</label>
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select" aria-label="motivo" formControlName="motivo" >
+                            <option value="">-- Elegir motivo de consulta --</option>
+                            <option value="Solicitud de informacion de servicios">Solicitud de informacion de servicios</option>
+                            <option value="Comentarios sobre contenidos">Comentarios sobre contenidos</option>
+                            <option value="Reporte de error en el sitio">Reporte de error en el sitio</option>
+                            <option value="Reporte de problema con una publicación">Reporte de error en el sitio</option>
+                            <option value="Denuncia publicacion fraudulenta">Denuncia publicación fraudulenta</option>
+                            <option value="Otro">Otro</option>
+
+                          </select>
+                    </div>
+                </div>
+  
+                <div class="row mt-3 mx-4">
+                    <div class="col-12">
+                        <label class="order-form-label" for="date-picker-example">Mensaje</label>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-outline datepicker" data-mdb-toggle-button="false">
+                            <textarea class="form-control" formControlName="mensaje"  rows="3" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </div>
+  
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="submit"  [disabled] = "contactoForm.invalid || sendContacto" id="btnSubmit" class="btn btn-primary d-block mx-auto btn-submit">Enviar</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+  </section>

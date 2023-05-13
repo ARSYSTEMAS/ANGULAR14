@@ -1,0 +1,352 @@
+    <!-- Shop Detail Start -->
+    <div class="container-fluid pb-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+
+                        <div class="carousel-item active">
+                            <a class="gallery_img" (click)="sendUrlFotoModal(urlFotoPrincipal)">
+                                <img src="{{urlFotoPrincipal}}"  alt="Image">
+                            </a>
+                        </div>
+
+                        <div *ngFor="let item of archivos; let i = index;"  class="carousel-item">
+                            <app-spinner *ngIf="loading"></app-spinner>
+                            <a class="gallery_img" (click)="sendUrlFotoModal(item.urlfotopublicacion)" >
+                            <img  src="{{item.urlfotopublicacion}}" alt="Image">
+                            </a>
+                        </div>
+                    </div>
+
+                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-white"></i>
+                    </a>
+
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-white"></i>
+                    </a>
+
+                </div>
+            </div>
+
+            <div *ngFor="let publicacion of Ispublicacion  let i =index" class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3 class="text-uppercase ">{{publicacion.marca}}  {{publicacion.modelo}}</h3>
+                    <div class="d-flex mb-3">
+                        <div class="text-primary mr-2">
+                            <small class="fas fa-star"></small>
+                            <small class="fas fa-star"></small>
+                            <small class="fas fa-star"></small>
+                            <small class="fas fa-star-half-alt"></small>
+                            <small class="far fa-star"></small>
+                        </div>
+                     
+                       
+                    </div>
+                    <h3 class="font-weight-semi-bold mb-4">{{ formatearPrecio(publicacion.precio, publicacion.tipomoneda) }}</h3>
+                    <p class="mb-4">{{publicacion.ano}} | {{ formatoNumerico(publicacion.km) }} km • Publicado el <small>{{formatearFecha.formatearFecha(publicacion.fechapublicacion)}}</small> hace {{obtenerDiasTranscurridos(formatearFecha.formatearFecha(publicacion.fechapublicacion))}} día</p>
+                    
+                   
+                    <div  *ngIf="LoggedInUser != emailuserTo" class="d-flex align-items-center mb-4 pt-2">
+                  
+                        <button #botonPreguntar data-bs-toggle="modal"  [disabled] = "!isLoggedIn" data-bs-target="#ModalPreguntar" class="btn btn-primary px-3"><i class="bi bi-chat-square-text-fill"></i> Preguntar</button>
+                        &nbsp;
+                        <button (click)="sendWhatsAppMessage(DatosVendedor.telefono)"  class="btn btn-primary px-3"><i class="bi bi-whatsapp"></i> WhatsApp</button>
+                    </div>
+
+                    <small>¿Tuviste un problema con la publicación? <a routerLink="/contacto">Avísanos.</a></small>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="bg-light p-30">
+                    <div class="nav nav-tabs mb-4">
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Características</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Información del Vendedor</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Consejos de seguridad</a>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-pane-1">
+                            <h4 class="mb-3">Características del vehículo</h4>
+                            
+                            <table *ngFor="let publicacion of Ispublicacion  let i =index"  class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Marca:</th>
+                                    <th >{{publicacion.marca}}</th>
+                       
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Modelo:</th>
+                                    <td>{{publicacion.modelo}}</td>
+     
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Año:</th>
+                                    <td>{{publicacion.ano}}</td>
+
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Transmisión:</th>
+                                    <td colspan="2">{{publicacion.transmision}}</td>
+       
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Ubicación:</th>
+                                    <td colspan="2">{{publicacion.ubicacion}}</td>
+                                 
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Dueños:</th>
+                                    <td colspan="2">{{publicacion.unicodueno}}</td>
+                                   
+                                  </tr>
+
+                                  <tr>
+                                    <th scope="row">Fallas:</th>
+                                    <td colspan="2">{{publicacion.fallas}}</td>
+                                   
+                                  </tr>
+
+                                  <tr>
+                                    <th scope="row">Extra:</th>
+                                    <td colspan="2">{{publicacion.extra}}</td>
+                                   
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-pane-2">
+                            <h4 class="mb-3">Información del Vendedor</h4>
+
+                            <table  class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Nombre:</th>
+                                    <th >{{DatosVendedor.nombre}}</th>
+                       
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Telefono:</th>
+                                    <td>{{DatosVendedor.telefono}}</td>
+     
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Ubicación:</th>
+                                    <td>{{DatosVendedor.direccion}}</td>
+
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                            
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-3">
+                            <div class="row">
+
+                              <p class="text-muted">
+                                <i class="fas fa-quote-left pe-2"></i>
+                                Desde Autos Usados, nunca te pediremos contraseñas, PIN o códigos de verificación a través de WhatsApp, teléfono, SMS o email.
+                              </p>
+
+                              <p class="text-muted">
+                                <i class="fas fa-quote-left pe-2"></i>
+                                Cuídate si mencionan ventas rápidas por mudanza.
+                              </p>
+                               
+
+                              <p class="text-muted">
+                                <i class="fas fa-quote-left pe-2"></i>
+                                No pagues sin verificar personalmente la documentación y el estado del vehículo.
+                              </p>
+                               
+
+                              <p class="text-muted">
+                                <i class="fas fa-quote-left pe-2"></i>
+                                Desconfía de ofertas debajo del precio de mercado.
+                              </p>
+
+                              <p class="text-muted">
+                                <i class="fas fa-quote-left pe-2"></i>
+                                Autos Usados no tiene vehículos para la Venta.
+                              </p>
+                               
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- Shop Detail End -->
+
+
+
+
+<!-- Modal Preguntar -->
+<div *ngIf="isLoggedIn" class="modal fade" id="ModalPreguntar" aria-labelledby="exampleModalToggleLabel" tabindex="-1" aria-hidden="true">
+  <!-- Formulario Pregunta-->
+  <form  #preguntarForm="ngForm" (ngSubmit)="preguntar(true)"  [formGroup] = "registerPregunta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pregunta al Vendedor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="card">
+              <div class="card-body p-4">
+                <div class="d-flex flex-start w-100">
+                  <img class="rounded-circle shadow-strong me-3"
+                    src="{{ currentUsuario.imageProfileUrl }}" alt="avatar" width="65"
+                    height="65" />
+                  <div class="w-100">
+               
+                    <div class="form-outline">
+                      <textarea class="form-control" formControlName="pregunta" rows="4"></textarea>
+                     
+                      <span *ngIf= "registerPregunta.get('pregunta')?.hasError('required') && registerPregunta.get('pregunta')?.touched" class="text-danger">Formula tu pregunta al <strong>Vendedor</strong> </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+           <button type="submit" class="btn btn-danger" [disabled] = "registerPregunta.invalid">
+                        Preguntar <i class="fas fa-long-arrow-alt-right ms-1"></i>
+            </button>  
+      </div>
+    </div>
+  </div>
+   </form>
+</div>
+
+
+<!-- Preguntar -->
+    <div *ngIf="LoggedInUser != emailuserTo" class="container-fluid ">
+            <div *ngIf="isLoggedIn" class="card">
+              <div class="card-body p-4">
+                <div class="d-flex flex-start w-100">
+                  <img class="rounded-circle shadow-strong me-3"
+                    src="{{ currentUsuario.imageProfileUrl }}" alt="avatar" width="65"
+                    height="65" />
+                  <div class="w-100">
+                    <h5>Pregunta al Vendedor</h5>
+                 <!-- Formulario Pregunta-->
+                 <form  #preguntarForm="ngForm" (ngSubmit)="preguntar(false)"  [formGroup] = "registerPregunta">
+                    <div class="form-outline">
+                      <textarea class="form-control" formControlName="pregunta" rows="4"></textarea>
+                      <label class="form-label" for="textAreaExample">Tu pregunta aqui!</label>
+
+                      <span *ngIf= "registerPregunta.get('pregunta')?.hasError('required') && registerPregunta.get('pregunta')?.touched" class="text-danger">Formula tu pregunta al <strong>Vendedor</strong> </span>
+
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                      <button type="submit" class="btn btn-danger" [disabled] = "registerPregunta.invalid">
+                        Preguntar <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                      </button>                  
+                    </div>
+                </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div> 
+   
+
+
+<!-- List Preguntas -->    
+      <section style="background-color: #eee;">
+        <div  class="container py-5">
+          <div class="row d-flex justify-content-center">   
+              <div class="card" id="chat" style="border-radius: 15px;">
+                <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                  <p class="mb-0 fw-bold">Preguntas y respuestas</p>
+                </div>
+                <div *ngFor="let pregunta of preguntas  let i =index" class="card-body">
+      
+                  <!-- List Preguntas --> 
+                  <div  class="d-flex flex-row justify-content-start mb-4">
+                        <img src="{{urlFotoemailFrom}}" class="rounded-circle shadow-strong me-3" alt="avatar 1" style="width: 45px; height: 100%;"/>
+                        <div class="p-3 ms-3 msg" id="pregunta" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                            <p class="small mb-0" >{{pregunta.pregunta}}</p>
+                        </div>
+                  </div>
+                  
+                   <!-- List Respuesta --> 
+                   <p *ngIf="pregunta.respuesta; then thenBlock; else elseBlock"></p>   
+                  <ng-template #thenBlock>
+
+                  <div class="d-flex flex-row justify-content-end mb-4">
+                      <div class="p-3 ms-3 msg" style="border-radius: 15px;">
+                            <p class="small mb-0 ">{{pregunta.respuesta}}  <small><strong>{{formatearFecha.formatearFecha(pregunta.fecharespuesta)}}</strong></small></p>
+                      </div>
+                    <img src="{{urlFotoemailTo}}"
+                      alt="avatar 1" style="width: 45px; height: 100%;" class="rounded-circle shadow-strong me-3"/>
+                  </div>
+
+                  </ng-template>
+
+                  <ng-template #elseBlock>
+
+                    <div *ngIf="LoggedInUser === pregunta.emailuserTo"class="d-flex flex-row justify-content-end mb-4">
+                          <div style="border-radius: 15px; background-color: #fbfbfb;">
+                           
+                            <form #respuestaForm="ngForm" (ngSubmit)="responder(pregunta!.id,pregunta.emailuserFrom)"  [formGroup] = "registerRespuesta" class="row g-3">
+                           
+                            <div class="col-auto">
+                             <textarea class="form-control" formControlName="respuesta" rows="1"></textarea>
+                            </div>
+                            <div class="col-auto">
+                              <button type="submit" class="btn btn-primary d-grid gap-2"><strong>Responder</strong></button>
+                            </div>
+                          </form>
+
+                          </div>
+                    </div>
+
+                  </ng-template>
+           
+
+                </div>
+              </div>
+      
+            </div>
+          </div>
+      </section> 
+       
+  
+
+ <!-- Car Modal -->
+
+ <button #sendUrlImage type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendUrlImage"></button>
+
+    <div class="modal fade" id="sendUrlImage" tabindex="-1" role="dialog" aria-labelledby="product-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="product-modal-label">Foto Ampliada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{urlFotoModal}}" class="img-fluid" alt="Foto Vehiculo">
+                </div>
+            </div>
+        </div>
+    </div>

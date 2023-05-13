@@ -1,0 +1,70 @@
+   <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="../assets/img/loginCar-2.jpg"
+                  alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+
+                 
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-lg btn-block btn-primary" (click)="onGoogle()" style="background-color: #dd4b39;">
+                          <i class="bi bi-google me-2"></i> Inicia sesion con Google
+                        </button>
+                   </div>
+                   <br/>
+                  <form (ngSubmit)= "login()"  [formGroup] = "loginUsers">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="email">Email</label>
+                      <input type="email" id="email" class="form-control form-control-lg"  formControlName="email"/>
+                    
+                      <span *ngIf= "loginUsers.get('email')?.hasError('required') && loginUsers.get('email')?.touched"  class="text-danger errorlabel"> El <strong>email</strong> es requerido 
+                      </span>
+          
+                      <span *ngIf= "loginUsers.get('email')?.hasError('email') && loginUsers.get('email')?.touched"  class="text-danger errorlabel"> El <strong>email</strong> es invalido 
+                      </span>
+                    
+                    </div>
+          
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="password">Contraseña</label>
+                      <input type="password" id="password" class="form-control form-control-lg" formControlName="password" />
+          
+                           
+                      <span *ngIf= "loginUsers.get('password')?.hasError('required') && loginUsers.get('password')?.touched" class="text-danger">La <strong>Contraseña</strong> es requerido </span>
+          
+                    </div>
+          
+                    <div class="d-flex justify-content-around align-items-center mb-4">
+                      <!-- Checkbox -->
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                        <label class="form-check-label" for="form1Example3"> Recuerdame </label>
+                      </div>
+                      <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+          
+                    <!-- Submit button -->
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled] = "loginUsers.invalid">Iniciar Sesión</button>
+                    </div>
+                    ¿Aún no tienes cuenta? <a routerLink="/register">Regístrate</a> 
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-spinner *ngIf="loading"></app-spinner>
+    </div>
+    
+
+

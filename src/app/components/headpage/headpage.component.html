@@ -1,0 +1,134 @@
+
+  <!-- Css externo a Boostra[p] -->
+  <link rel="stylesheet" [href]="sanitizer.bypassSecurityTrustResourceUrl(cssUrl)">
+  <link rel="stylesheet" [href]="sanitizer.bypassSecurityTrustResourceUrl(cssUrl2)">
+  <link rel="stylesheet" [href]="sanitizer.bypassSecurityTrustResourceUrl(cssUrl3)">
+    
+  
+      <!-- Topbar Start -->
+      <div class="container-fluid sb-topnav" >
+          <div class="row bg-secondary py-1 px-xl-5">
+              <div class="col-lg-6 d-none d-lg-block">
+                  <div class="d-inline-flex align-items-center h-100">
+                      <a class="text-body mr-3" routerLink="/acerca">Acerca de</a>
+                      <a class="text-body mr-3" routerLink="/contacto">Contacto</a>
+                      <a class="text-body mr-3" routerLink="/ayuda">Ayuda</a>
+                      <a class="text-body mr-3" routerLink="/preguntas-frecuentes">Preguntas Frecuentes</a>
+                  </div>
+              </div>
+              <div class="col-lg-6 text-center text-lg-right">
+                                  
+                  <div class="d-inline-flex align-items-center">
+                      <div *ngIf= "isLoggedIn" class="btn-group">
+                          <div *ngIf= "fotoUserUrl">
+                          <img [src]="fotoUserUrl" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy">
+                          </div>
+  
+  
+                          <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                          
+                          
+                          <i *ngIf= "!fotoUserUrl" class="bi bi-person"></i>   
+                          <p *ngIf="username; then thenBlock; else elseBlock"></p>
+                          <ng-template #thenBlock>{{ username }}</ng-template>
+                          <ng-template #elseBlock>{{ LoggedInUser }}</ng-template>
+  
+                          </button>
+  
+  
+                                     
+                          <div class="dropdown-menu dropdown-menu-right">
+  
+                             
+                              <li *ngIf="nameUser"><p class="pl-2 pr-2">Hola! {{ nameUser }}</p></li>
+                              <li><hr class="dropdown-divider" /></li>
+  
+                              <li><a routerLink='/profile' class="dropdown-item">Mi perfil</a></li>
+                              <li><a routerLink="/sell" class="dropdown-item">Vender</a></li>
+                              <li><a routerLink="/list-publications" class="dropdown-item" >Publicaciones</a></li>
+                              <li><a class="dropdown-item" routerLink="/notificaciones">Notificaciones</a></li>
+                              <li><a class="dropdown-item" routerLink="/facturacion">Facturación</a></li>
+                             
+                              <li><hr class="dropdown-divider" /></li>
+                              <li><a class="dropdown-item" style="cursor: pointer;"  (click)="logout()">Cerrar Sesión</a></li>
+  
+                          </div>
+                      </div>
+                      
+                                      <!-- Icons -->
+                                      <!-- Notifications"-->
+  
+                                      <div *ngIf= "isLoggedIn" class="dropdown">
+                                          <a class="me-3 dropdown-toggle hidden-arrow" id="notifications"
+                                          role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <i class="bi bi-bell-fill"></i>
+                                              <span *ngIf="numNotifications?.length" class="badge rounded-pill badge-notification bg-danger">{{ numNotifications?.length }}</span>
+                                          </a>
+                                          <div class="container-fluid">             
+                                        <ul class="dropdown-menu" aria-labelledby="notifications">
+                                          
+                                  <ng-container *ngIf="(notificationService.notification$ | async) as notificationsCount">
+                                      
+                                      <li *ngFor="let notification of notifications" (click)="eyesNotificacion( notification.id)" class="dropdown-item border-bottom" [style]="{'background-color': notification.status =='LN' ? '#eee' : 'white'}" >
+                                          <a  routerLink="{{ notification.rutadetails }}" class="d-flex justify-content-between">
+                                                  <div class="d-flex flex-row">
+                                                      <img src="{{ notification.urlfoto }}" alt="foto" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="40" height="35">
+                                                      <div class="pt-1">
+                                                          <p style="cursor: pointer;" class="fw-bold mb-0">{{notification.message}}</p>
+                                                          <p class="small text-muted">{{ notification.details }}</p>
+                                                      </div>
+                                                  </div>
+  
+                                              <div class="pt-1">
+                                                  <p class="small text-muted mb-1 pl-2">{{ notification.fecha }}</p>
+                                                  <span class="badge bg-danger float-end"><a style="cursor: pointer;" (click)="deleteNotificacion(notification.id)"><i class="bi bi-x-circle-fill"></i></a></span>
+                                              </div>
+  
+                                          </a>
+                                      </li>                                          
+                                  </ng-container>
+                                        </ul>
+                                        </div>
+                                      </div>
+                             <!-- Container wrapper -->
+  
+  
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Idioma</button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                              <button class="dropdown-item" type="button">Español</button>
+                              <button class="dropdown-item" type="button">Ingles</button>
+                          </div>
+                      </div>
+                  </div>
+                 
+              </div>
+          </div>
+          <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+              <div class="col-lg-4">
+                  <a href="" class="text-decoration-none">
+                      <span class="h1 text-uppercase text-primary bg-dark px-2">AUTOS</span>
+                      <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">USADOS</span>
+                  </a>
+              </div>
+              <div class="col-lg-4 col-6 text-left">
+                <form  #searchForm="ngForm" (ngSubmit)="searchModelo()"  [formGroup] = "formSearch">
+                      <div class="input-group">
+                          <input type="text" formControlName="search" class="form-control" placeholder="Buscar por Modelos">
+                          <div class="input-group-append">
+                              <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search" style="cursor:pointer" (click)="searchModelo()"></i> 
+                              </span>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="col-lg-4 col-6 text-right">
+                  <p class="m-0">Servicio al Cliente</p>
+                  <h5 class="m-0">+58 412 0420838</h5>
+              </div>
+          </div>
+      </div>
+      <!-- Topbar End -->
+  
+      <app-navbar></app-navbar>

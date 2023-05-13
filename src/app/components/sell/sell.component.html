@@ -1,0 +1,408 @@
+    
+    <div class="container" style="background-color: #3D464D ; ">
+      <div class="row d-flex justify-content-center align-items-center pb-4">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4 pt-2" style="text-align: center;">Vende tu auto
+            de forma simple, rápida y segura.</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+        <!-- Formulario Publicaciones-->
+            <form  #publicacionesForm="ngForm" (ngSubmit)="publicar()"  [formGroup] = "registerPublicacion">
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Indica marca:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <!-- <input type="text" class="form-control form-control" formControlName="marca"/> -->
+        
+                  <select id="marca" class="form-control form-control" formControlName="marca" (change)="buscarModeloPorMarca()">
+                    <option value="">-- Selecciona una marca --</option>
+                    <option *ngFor="let marca of marcas" [value]="marca.Nombre">{{ marca.Nombre }}
+                    </option>
+                  </select>
+
+
+                  <span *ngIf= "registerPublicacion.get('marca')?.hasError('required') && registerPublicacion.get('marca')?.touched" class="text-danger">La <strong>Marca</strong> es requerido </span>
+
+                </div>
+              </div>
+  
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Indica modelo:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                <!--  <input type="text" class="form-control form-control" formControlName="modelo" /> -->
+                 
+                  <select id="modelo" class="form-control form-control" formControlName="modelo">
+                    <option value="">-- Selecciona un modelo --</option>
+                    <option *ngFor="let modelo of modelos" [value]="modelo.Nombre">{{ modelo.Nombre }}</option>
+                  </select>
+
+
+                  <span *ngIf= "registerPublicacion.get('modelo')?.hasError('required') && registerPublicacion.get('modelo')?.touched" class="text-danger">El <strong>Modelo</strong> es requerido </span>
+
+                </div>
+              </div>
+  
+             
+  
+             <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Año del Vehiculo:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="number" class="form-control form-control" formControlName="ano"/>
+
+                  <span *ngIf= "registerPublicacion.get('ano')?.hasError('required') && registerPublicacion.get('ano')?.touched" class="text-danger">El <strong>año</strong> es requerido </span>
+                  
+                </div>
+              </div>
+  
+             
+  
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Km del Vehiculo:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="number" class="form-control form-control" formControlName="km" />
+
+                  <span *ngIf= "registerPublicacion.get('km')?.hasError('required') && registerPublicacion.get('km')?.touched" class="text-danger">El <strong>Kilometraje</strong> es requerido </span>
+  
+                </div>
+              </div>
+  
+            
+
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0;  pb-2">Transmisión:</h6>
+  
+                </div>
+
+                
+                <div class="col-md-6 mb-4">
+
+                  <select class="form-select" aria-label="Transmision" formControlName="transmision">
+                    <option value="">-- Selecciona tipo de Transmisión --</option>
+                    <option value="Sincronico">Sincronico</option>
+                    <option value="Automatico">Automatico</option>
+                  </select>
+
+                  <span *ngIf= "registerPublicacion.get('transmision')?.hasError('required') && registerPublicacion.get('transmision')?.touched" class="text-danger">La <strong>Transmisión</strong> es requerido </span>
+
+                </div>
+              </div>
+  
+
+              
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Unico Dueño:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control" placeholder="ejemplo 1-1" formControlName="unicodueno"/>
+
+                  <span *ngIf= "registerPublicacion.get('unicodueno')?.hasError('required') && registerPublicacion.get('unicodueno')?.touched" class="text-danger">Indica cuantos <strong>dueños</strong> ha tenido el vehiculo </span>
+  
+                </div>
+              </div>
+  
+           
+
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Extra:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <textarea class="form-control" formControlName="extras" rows="3" placeholder="Extras de tu vehiculo que aumentan más su valor"></textarea>
+  
+                </div>
+              </div>
+  
+             
+
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Fallas:</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <textarea class="form-control" formControlName="fallas" rows="3" placeholder="Tu vehiculo tiene un problema, detallalo aqui"></textarea>
+  
+                </div>
+              </div>
+              
+
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0;  pb-2">Aceptas cambio:</h6>
+  
+                </div>
+
+                
+                <div class="col-md-3 mb-4">
+
+                  <select class="form-select" aria-label="Cambio" formControlName="aceptascambios">
+                    <option value="">-- Aceptas cambiar --</option>
+                    <option value="No">No</option>
+                    <option value="Si">Si</option>
+                  </select>
+                  
+                  <span *ngIf= "registerPublicacion.get('aceptascambios')?.hasError('required') && registerPublicacion.get('aceptascambios')?.touched" class="text-danger">Indica si aceptas <strong>cambiar</strong> tu vehiculo por alguna otra propuesta</span>
+                </div>
+              </div>
+
+        
+              <div class="row ">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0; pt-2">Precio Vehiculo:</h6>
+  
+                </div>
+
+                <div class="col-md-3 pe-5">
+  
+                  <input type="number" class="form-control form-control" formControlName="precio"/>
+
+                  <span *ngIf= "registerPublicacion.get('precio')?.hasError('required') && registerPublicacion.get('precio')?.touched" class="text-danger">El <strong>Precio</strong> es requerido </span>
+
+                </div>
+
+                <div class="col-md-6 pe-5">
+                  <select class="form-select" aria-label="Moneda" formControlName="tipomoneda">
+                    <option value="">-- Selecciona la Moneda --</option>
+                    <option value="Bolivares">Bolivares</option>
+                    <option value="Dolares">Dolares</option>
+                  </select>
+
+                  <span *ngIf= "registerPublicacion.get('tipomoneda')?.hasError('required') && registerPublicacion.get('tipomoneda')?.touched" class="text-danger">El tipo de<strong>Moneda</strong> es requerido </span>
+
+                </div>
+
+               
+              </div>
+
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0;  pb-2">Ubicación del Vehiculo:</h6>
+  
+                </div>
+
+                
+                <div class="col-md-3 mb-4">
+
+                  <select class="form-select" aria-label="ubicacion" formControlName="ubicacion">
+                    <option value="" selected >Estado</option>
+                    <option *ngFor="let estados of estadosVenezuela" [value]="estados">
+                        {{estados}}
+                    </option>
+                  </select>                
+                  <span *ngIf= "registerPublicacion.get('ubicacion')?.hasError('required') && registerPublicacion.get('ubicacion')?.touched" class="text-danger">la <strong>ubicación</strong> es requerido</span>
+                </div>
+              </div>
+
+              <hr/>
+               
+              <div class="row align-items-center py-3 " >
+                
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Foto principal</h6>
+  
+                </div>
+
+                <div class="col-md-9 pe-5">
+  
+                 <input class="form-control form-control " formControlName="fotoprincipal" accept="image/jpg, image/jpeg, image/png, image/webp, image/JPG, image/JPEG, image/PNG, image/WEBP" id="fotoPrincipal" type="file" (change)="cargarImageprincipal($event)" />
+
+                 <span *ngIf= "registerPublicacion.get('fotoprincipal')?.hasError('required') && registerPublicacion.get('fotoprincipal')?.touched" class="text-danger">La <strong>Foto Principal</strong> es requerido </span>
+
+                  <div class="small text-muted mt-2">
+                    size Max 5 MB
+                  </div>
+
+                </div>
+
+              </div>
+              
+                
+                <app-spinner *ngIf="loadingII"></app-spinner>
+                <div *ngIf="imgPrincipal" class="col-lg-2">
+                  <div class="card" style="background-color:#F9FAFB ; box-shadow: 0px 0px 10px 1px #aaaaaa;">
+                     <i (click)="deleteImgPrincipal()" style="cursor: pointer; position: absolute; background-color: white;" class="bi bi-trash"></i>
+                     <div class="imgresponsive">
+                    <img  class="img-fluid"
+                    [src]="imgPrincipal"
+                      class="card-img-top"
+                      alt="vehiculos"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              
+              <div class="row align-items-center py-3 " >
+              
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Fotos del Vehículo Max(10)</h6>
+  
+                </div>
+
+                <div class="col-md-9 pe-5">
+  
+                  <input  class="form-control form-control"  id="imagenes" accept="image/jpg, image/jpeg, image/png, image/webp, image/JPG, image/JPEG, image/PNG, image/WEBP" type="file" multiple  (change)="cargarImagenes($event)"/>
+                  
+                  <div class="small text-muted mt-2">
+                    size Max 50 MB
+                  </div>
+  
+                </div>
+             
+
+                <app-spinner *ngIf="loading"></app-spinner>
+                <div *ngFor="let item of imagenes; let i = index;" class="col-lg-2">
+                  <div class="card" style="background-color:#F9FAFB ; box-shadow: 0px 0px 10px 1px #aaaaaa;">
+                   
+                    <i (click)="deleteImg(i)" style="cursor: pointer; position: absolute; background-color: white;" class="bi bi-trash"></i>
+                    <div class="imgresponsive">
+                    <img class="img-fluid"
+                    [src]="item"
+                      class="card-img-top"
+                      alt="vehiculos"
+                    />
+                  </div>
+                </div>
+              </div>
+              </div>
+              
+             
+              <hr class="mx-n3">
+      <!--Botonera"-->
+              
+              <div class="px-5 py-4">
+                <button id="botonEnviar" type="submit"  [disabled] = "registerPublicacion.invalid || sendPublicacion" class="btn btn-primary btn-lg"><i class="bi bi-send"></i> Enviar Publicación</button>
+                <div class="float-end" style="cursor: pointer;"  data-bs-toggle="modal" href="#tipsFotos">Como Sacar buenas fotos de tu vehículo <i class="bi bi-lightbulb"></i>
+                </div>
+              </div>
+          </form>
+          </div>
+
+     <!-- Tips barraProgeso-->
+      <div  *ngIf="percentDone" class="progress d-flex justify-content-center ">
+        <div  class="progress-bar bg-success"  role="progressbar" [style.width]="(percentDone)+'%'">Enviando {{percentDone}}%</div>
+      </div>
+      
+        </div>
+      </div>
+
+ 
+    </div>
+
+
+    
+    <!-- Tips Modal-->
+    <div class="modal fade" id="tipsFotos" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalToggleLabel">Saca las mejores fotos de tu vehículo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="tips">
+            <i class="bi bi-1-circle-fill"></i> Muestra todo el vehículo en la foto, que no quede cortado.
+            <br/>
+            <br/>
+            <i class="bi bi-2-circle-fill"></i> No agregues bordes, logos, marcas de agua, banners ni textos promocionales.
+            <br/>
+            <br/>
+            <i class="bi bi-3-circle-fill"></i> Enseña tu vehículo desde diferentes ángulos. 
+            <br/>
+            <br/>
+            <i class="bi bi-4-circle-fill"></i> Sube una imagen frontal-izquierda frontal-derecha, También puedes mostrar el interior, el motor y el tablero.
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+   
+<!-- Button trigger modal -->
+<button #botonMessage type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  
+</button>
+
+<!-- Modal MESSAGE-->
+ 
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Listo! hemos enviado tu publicación</h5>
+        <button type="button" (click) = "goBack()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"><div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">En hora buena..</h4>
+        <p>Tu publicación se encuentra registrada, desde ahora puedes ir a tu perfil, opción <a routerLink="/list-publications">publicaciones</a> donde podras editar los datos introducidos en caso de querer modificar algun dato en especifico.</p>
+        <hr>
+        <p class="mb-0 alert alert-warning">Tu publicación se encuentra en estatus Pendiente, realize el pago correspondiente para activar la publicación en el MarketPlace.</p>
+      </div></div>
+      <div class="modal-footer">
+        <button type="button" (click) = "goBack()" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" (click)="goPublications()"  class="btn btn-primary">Ir a Publicaciones</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="showBanner">
+<div class="fixed-bottom">
+  <div class="container" >
+     <div class="row justify-content-between align-items-center" style="background-color:red;">
+      
+        <div class="col-auto">
+           <p class="text-white">¡Hola, Estimado Visitante! Para vender, deberas registrarte y iniciar sesión en nuestro sitio Web.</p>
+        </div>
+        <div class="col-auto">
+           <button class="btn btn-primary" (click)="hideBanner()">Aceptar</button>
+        </div>
+      </div>
+     </div>
+  </div>
+</ng-container>

@@ -1,0 +1,242 @@
+﻿
+<!--Listado Publicaciones-->
+
+<div  *ngIf="publicaciones.length <= 0" class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Aun no tienes Publicaciones!</h4>
+  <p>¿Tienes un vehículo usado en venta pero aún no te has animado a publicarlo? </p>
+  <hr>
+  <p class="mb-0">¡No esperes más para darle la oportunidad de encontrar a su próximo dueño! En nuestra plataforma encontrarás una comunidad de compradores interesados en vehículos usados como el tuyo. Publica ahora y comienza a recibir ofertas en poco tiempo</p>
+</div>
+
+    <div *ngIf="publicaciones.length > 0"class="container py-5"  style="background-color: #3D464D ;">
+      <app-spinner *ngIf="Loadingpublicaciones"></app-spinner>
+      <div *ngFor="
+      let publicacion of publicaciones
+      | paginate: { itemsPerPage: 5, currentPage: p };
+      let i =index" 
+      
+      class="row justify-content-center mb-3">
+      <div class="col-md-12 col-xl-10">
+        <div class="card shadow-0 border rounded-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                
+                <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                  <app-spinner *ngIf="Loadingpublicaciones"></app-spinner>
+                    <p *ngIf="publicacion.fotoprincipal then thenBlock; else elseBlock"></p>
+                          <ng-template #thenBlock>
+                            <div class="imgPrincipal">
+                            <img  class="img-fluid" alt="Foto Vehiculo" src="{{ publicacion.fotoprincipal }}"/>
+                            </div>
+                          </ng-template>
+                          
+                        <ng-template #elseBlock><img src="../assets/img/noimage.png"  class="img-fluid"
+                            /></ng-template>
+                    
+                    
+                    <a href="#!">
+                      <div class="hover-overlay">
+                        <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-6">
+                  <h5 class="text-uppercase">{{publicacion.marca}}  {{publicacion.modelo}}</h5>
+                  <div class="d-flex flex-row">
+                    <div class="text-danger mb-1 me-2">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                   
+                  </div>
+
+                  <div class="mb-2 text-muted small">
+                    <span>Id:  {{publicacion.idpublicacion}}</span>
+                    <span class="text-primary"> • </span>
+                  
+                  </div>
+
+                  <div class="mt-1 mb-0 text-muted small">
+                    <span>Año: {{publicacion.ano}}</span>
+                    <span class="text-primary"> • </span>
+                    <span>KM:  {{ formatoNumerico(publicacion.km) }}</span>
+                    <span class="text-primary"> • </span>
+                    <span> {{publicacion.transmision}}<br /></span>
+                  </div>
+                  <div class="mb-2 text-muted small">
+                    <span>Dueños: {{publicacion.unicodueno}}</span>
+                    <span class="text-primary"> • </span>
+                  
+                  </div>
+
+                  <div class="mb-2 text-muted small">
+                    <span>Precio: {{ formatearPrecio(publicacion.precio, publicacion.tipomoneda) }}</span>
+                    <span class="text-primary"> • </span>
+                  
+                  </div>
+                  <p class="text-truncate mb-4 mb-md-0">
+                    {{publicacion.fallas}}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+               
+                  <p  class="py-1 px-2 rounded text-white" style="text-align: center; "  [style]="{'background-color': publicacion.estatuspublicacion =='A' ? 'green' : 'red'}">{{ IsEstatus(publicacion.estatuspublicacion ) }}</p>
+                  <div class="d-grid gap-2 col-12 mx-auto">
+
+                    <button *ngIf="publicacion.estatuspublicacion =='P' || publicacion.estatuspublicacion =='PR'" class="btn btn-primary btn-sm " type="button" (click)="sendIdPublication(publicacion.idpublicacion,'pagar')"><strong>Pagar</strong></button>
+
+                    <button *ngIf="publicacion.estatuspublicacion =='P' || publicacion.estatuspublicacion =='PR'"  class="btn btn-primary btn-sm "   (click)="sendIdPublication(publicacion.idpublicacion,'eliminar')" type="button"><strong>Cancelar</strong></button>
+
+                    <div *ngIf="publicacion.estatuspublicacion !='P' && publicacion.estatuspublicacion !='PA' && publicacion.estatuspublicacion !='PR'" class="d-grid gap-2 col-12 mx-auto">
+                   
+                          <button class="btn btn-primary btn-sm " (click)="modificar(publicacion.idpublicacion)" type="button"><strong>Modificar</strong></button>
+
+                        
+                          <button class="btn btn-primary btn-sm "  (click)="sendIdPublication(publicacion.idpublicacion,'eliminar')"  type="button"><strong>Eliminar </strong></button>
+
+                      
+                          <button class="btn btn-primary btn-sm "  (click)="verPublicacion(publicacion.idpublicacion)" type="button"><strong>Ver Publicación</strong></button>
+
+                      
+                          <button class="btn btn-primary btn-sm" (click)="pausarPublicacion(publicacion.idpublicacion)" type="button"><strong>Pausar</strong></button>
+
+                    </div>
+
+                    <button *ngIf="publicacion.estatuspublicacion =='PA'" class="btn btn-primary btn-sm" (click)="activarPublicacion(publicacion.idpublicacion)" type="button"><strong>Activar</strong></button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pagination-controls *ngIf="!Loadingpublicaciones" (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+<!-- Full screen modal Pagar -->
+
+<button #sendComprobante type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendComprobante"></button>
+
+<div class="modal fade" id="sendComprobante">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header bg-primary">
+                <h4 class="modal-title " style="color: white;">Puedes pagar a traves de estas opciones</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <p  class="small " style="text-align: center; background-color: black; color: white;">Tarifa plana: 1$ o su equivalente en Bolivares(tasa BCV)</p>
+                <div class="card-body">
+                  <ul class="list-unstyled mb-0">
+                    <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                        
+                            <div class="d-flex flex-row">
+                              <img src="./assets/img/banesco.png" alt="banco banesco"
+                                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                              <div class="pt-1">
+                                <p class="fw-bold mb-0">Banesco </p>
+                                <p class="small ">0134-0946-31-0001301580 Anderson Garcia 16.570.004</p>
+                                <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                              </div>
+                            </div>                          
+                    </li>                  
+
+                    <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                        
+                      <div class="d-flex flex-row">
+                        <img src="./assets/img/provincial.png" alt="banco provincial"
+                          class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Provincial </p>
+                          <p class="small ">0108-0054-47-0100341748 Anderson Garcia 16.570.004</p>
+                          <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                        </div>
+                      </div>                          
+                    </li>          
+                    
+                    
+                    <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                        
+                      <div class="d-flex flex-row">
+                        <img src="./assets/img/bdvenezuela.jpg" alt="banco venezuela"
+                          class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Venezuela </p>
+                          <p class="small ">0102-0353-85-0100020682 Anderson Garcia 16.570.004</p>
+                          <p class="small ">Pago Movil 16.570.004 0412-0420838</p>
+                        </div>
+                      </div>                          
+                    </li>                           
+                  </ul>    
+                </div>
+          
+                <div class="card mb-2 mb-lg-0">
+                  <div class="card-body">
+                    <p ><strong>Tambien Aceptamos</strong></p>
+                    <p class="small "> Correo: ar_gg@hotmail.com</p>
+                    <img class="me-2" width="45px"
+                      src="./assets/img/airtm.png"
+                      alt="Airtm" />
+                    <img class="me-2" width="85px"
+                      src="./assets/img/binance.png"
+                      alt="Binance" />
+                  </div>
+                </div>
+
+                  <!-- Tips  barraProgeso-->
+             <div  *ngIf="percentDoneFlag" class="progress d-flex justify-content-center ">
+              <div  class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" [style.width]="(percentDone)+'%'">Enviando Comprobante {{percentDone}}%
+              </div>
+            </div>
+            
+                <!-- Modal Upload comprobante de pago -->
+          <div class="modal-footer">
+
+           
+
+            <div class="btn btn-primary">
+                <label class="form-label" for="comprobantePago"><strong>Enviar Comprobante de pago</strong>
+                </label><input type="file" class="form-control d-none" (change)="cargarComprobante($event)"  id="comprobantePago" />
+            </div>
+         </div>
+
+        </div>
+     </div>
+</div>
+
+
+
+<button #alertDeletePublicacion type="button" hidden="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertDeletePublicacion"></button>
+
+     <!-- Alert Modal Foto Principal-->
+     <div  class="modal fade"   id="alertDeletePublicacion" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+
+      <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header bg-danger">
+      <h5 class="modal-title" id="exampleModalLabel" style="color: white;">Eliminar Publicación</h5>
+      <button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p style="text-align: center;"><i  class="fas fa-bell fa-4x text-primary mb-4"></i></p>
+        <p style="text-align: center;">¿Estas seguro de eliminar la Publicación?, esta accion es irreversible</p>
+      </div>
+
+     
+
+      <div class="modal-footer d-flex justify-content-center">
+      <button type="button"  id="botoncerrarmodal" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+      No
+      </button>
+      <button (click)="delete()" type="button" class="btn btn-primary">Sí</button>
+      </div>
+      </div>
+      </div>
+      </div>  

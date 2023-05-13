@@ -1,0 +1,12 @@
+.imgresponsive {
+    width:auto;
+    height: 100px; /* ajusta la altura según tus necesidades */
+    overflow: hidden;
+  }
+  
+  .imgresponsive img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }

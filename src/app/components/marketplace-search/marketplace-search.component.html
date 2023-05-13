@@ -1,0 +1,84 @@
+       
+ <div class="container-fluid">      
+       <!-- Shop Product Start -->
+      
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
+                            <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                        </div>
+                        <div class="ml-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Ordenar Por</button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="ordenarListadoMasReciente()">Mas Reciente</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="ordenarListadoMenorPrecio()">Menor Precio</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="ordenarListadoMayorPrecio()">Mayor Precio</a>
+                                </div>
+                            </div>
+                            <div class="btn-group ml-2">
+                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Mostrar</button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(3)">3</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(6)">6</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(9)">9</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(18)">18</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(21)">21</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" (click)="mostrarPage(24)">24</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <app-spinner *ngIf="Loadingpublicaciones" ></app-spinner>
+
+                     <!--Listado Vacio-->
+
+                     <div  *ngIf="IspublicacionCpy.length <= 0" class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Aun no hay Publicaciones Activas para esa Marca o Modelo!</h4>
+                        <p>¿Tienes un vehículo usado en venta pero aún no te has animado a publicarlo? </p>
+                        <hr>
+                        <p class="mb-0">¡No esperes más para darle la oportunidad de encontrar a su próximo dueño! En nuestra plataforma encontrarás una comunidad de compradores interesados en vehículos usados como el tuyo. Publica ahora y comienza a recibir ofertas en poco tiempo</p>
+                    </div>
+
+                <div *ngFor="
+                let publicacion of IspublicacionCpy  
+                | paginate: { itemsPerPage:nroPagination, currentPage: p };
+                let i =index" class="col-lg-4 col-md-6 col-sm-1 pb-1">
+                    <div class="product-item bg-light mb-4">
+                       
+                        <div class="product-img position-relative overflow-hidden">
+
+                            <div class="imgPrincipal">
+                                
+                                <img 
+                        src="{{publicacion.fotoprincipal}}" class="img-fluid" alt="Foto Vehiculo">
+                        
+                            </div>
+                            <div class="product-action">
+                               
+                                <a  *ngIf="isLoggedIn" class="btn btn-outline-dark btn-square"><i class="far fa-heart"></i></a>
+                                <a   *ngIf="isLoggedIn" class="btn btn-outline-dark btn-square"><i class="fa fa-sync-alt"></i></a>
+                                <a class="btn btn-outline-dark btn-square" (click)="verPublicacion(publicacion.idpublicacion)"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate text-uppercase"  href="">{{publicacion.marca}} {{publicacion.modelo}}</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>{{ formato.formatearValor(publicacion.precio, publicacion.tipomoneda) }}</h5><h6 class="text-muted ml-2"></h6>
+                            </div>
+                        </div>
+                            <small class="text-center py-4" ><strong>{{publicacion.ubicacion}}</strong></small>
+                            
+                          
+                        </div>
+                    </div>
+            
+            </div>
+            <pagination-controls *ngIf="!Loadingpublicaciones"  (pageChange)="p = $event"></pagination-controls>
+        
+
+</div>

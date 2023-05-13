@@ -1,0 +1,102 @@
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div *ngIf="!loading" class="container">
+          <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              <h1 class="my-5 display-3 fw-bold ls-tight">
+                Crea una Cuenta <br />
+                Registrate hoy encuentra la oferta perfecta en el vehículo de tus sueños.
+              </h1>
+              <p style="text-align: justify;">
+                 Descubre la libertad de la carretera con nuestra comunidad de amantes de los autos
+                 compradores y vendedores confiables con acceso exclusivo a los mejores precios.
+              </p>
+            </div>
+    
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              <div class="card">
+                <div class="card-body py-5 px-md-5">
+                  <form (ngSubmit)="registerUser()"  [formGroup] = "registerUsers">
+  
+                   
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row">
+                      <div class="col-md-6 mb-4">
+                        <div class="form-outline">
+                          <label class="form-label" for="nombre">Nombre</label>
+                          <input type="text" id="nombre" class="form-control" formControlName="nombre" />
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <div class="form-outline">
+                          <label class="form-label" for="apellido">Apellido</label>
+                          <input type="text" id="apellido" class="form-control" formControlName="apellido"/>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="email">Email </label>
+                      <input type="email" id="email" class="form-control" formControlName="email"/>
+  
+                      <span *ngIf= "registerUsers.get('email')?.hasError('required') && registerUsers.get('email')?.touched"  class="text-danger errorlabel"> El <strong>email</strong> es requerido 
+                      </span>
+  
+                      <span *ngIf= "registerUsers.get('email')?.hasError('email') && registerUsers.get('email')?.touched"  class="text-danger errorlabel"> El <strong>email</strong> es invalido 
+                      </span>
+  
+                    </div>
+    
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="password">Contraseña</label>
+                      <input type="password" id="password" class="form-control" formControlName="password"/>
+                      
+                      <span *ngIf= "registerUsers.get('password')?.hasError('required') && registerUsers.get('password')?.touched" class="text-danger">La <strong>Contraseña</strong> es requerido </span>
+  
+                      <span *ngIf= "registerUsers.get('password')?.hasError('minlength') && registerUsers.get('password')?.touched"  class="text-danger errorlabel"> La <strong>Contraseña</strong> debe tener al menos 6 caracteres 
+                      </span>
+                    </div>
+  
+                    <!-- Repeat Password input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label5" for="repeatPassword">Repetir Contraseña</label>
+                      <input type="password" id="repeatPassword" class="form-control" formControlName="repeatPassword"/>
+  
+                      <span *ngIf= "registerUsers.get('repeatPassword')?.hasError('required') && registerUsers.get('repeatPassword')?.touched" class="text-danger"> Repita la <strong>Contraseña</strong> nuevamente 
+                      </span>
+  
+                      <span *ngIf= "registerUsers.get('repeatPassword')?.hasError('minlength') && registerUsers.get('repeatPassword')?.touched"  class="text-danger errorlabel"> La <strong>Contraseña</strong> debe tener al menos 6 caracteres 
+                      </span>
+  
+                    </div>
+    
+                 
+                    <div class="form-check d-flex justify-content-center mb-4">
+                      <label class="form-check-label" for="form2Example33">
+                      ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a>
+                      </label>
+                    </div>
+  
+                      <!-- Submit button -->
+                  <div class="d-grid gap-2">
+                      <button type="submit" class="btn btn-primary btn-block mb-4" [disabled] = "registerUsers.invalid" >
+                          Crear Cuenta
+                        </button>
+                  </div>
+   
+                  </form>
+                 
+                </div>
+                
+              </div>
+              
+            </div>
+          </div>
+         
+        </div>
+        <app-spinner *ngIf="loading"></app-spinner>
+      </div>
+      <!-- Jumbotron -->
+  
